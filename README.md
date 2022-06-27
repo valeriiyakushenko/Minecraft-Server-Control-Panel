@@ -8,7 +8,6 @@ _Main screen for control panel *_
 Screenshot Functions *
 
 # Installation
----
 Install pip:
 >Run in Control Panel directory 
 ```
@@ -25,7 +24,6 @@ pip install mcrcon
 ```
 ---
 # Usege
----
 ##### Run scrip
 ```
 python main.py 
