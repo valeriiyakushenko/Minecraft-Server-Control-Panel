@@ -1,0 +1,5 @@
+server_status:
+  online: false
+  players_online_list: ''
+  players_online_max: ''
+  players_online_now: ''

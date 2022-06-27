@@ -1,0 +1,8 @@
+settings_server:
+  fileplace: /Users/valera/PycharmProjects/ServerControl/assets_py/background.png
+  maxmemory: '4096'
+  minmemory: '1024'
+  rcon_ip: 0.0.0.0
+  rcon_password: '1234567800'
+  server_ip: 129.151.220.17
+  server_port: '25565'
