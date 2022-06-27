@@ -8,9 +8,17 @@ _Main screen for control panel *_
 Screenshot Functions *
 
 # Installation
-1. Install pip:
-   >Select Control Panel directory 
-   >Run:
+Install pip:
+>Run in Control Panel directory 
 ```
 python get-pip.py
+```
+
+Install pip library's:
+```
+pip install pyyaml
+
+pip3 install customtkinter
+
+pip install mcrcon
 ```
