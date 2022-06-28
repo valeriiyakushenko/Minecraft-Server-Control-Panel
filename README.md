@@ -23,7 +23,7 @@ pip3 install customtkinter
 pip install mcrcon
 ```
 ---
-# Usege
+# Usage
 ##### Run scrip
 ```
 python main.py 
