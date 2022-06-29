@@ -6,7 +6,6 @@ _Main screen for control panel *_
 
 # Control Panel Functions
 ![](documentation_images/functions.gif)
-Screenshot Functions *
 
 # Installation
 Install pip:
@@ -40,7 +39,7 @@ rcon.port=25575
 rcon.password=your_pasword
 ```
 ---
-Go to the main tab and open the settings
+Go to the main tab and open the settings__
 Fill in all items
 ![](documentation_images/settings.png)
 ---
