@@ -5,6 +5,7 @@ Control panel for any minecraft server for Mac OS and Linux
 _Main screen for control panel *_
 
 # Control Panel Functions
+![](documentation_images/functions.gif)
 Screenshot Functions *
 
 # Installation
