@@ -46,5 +46,14 @@ python main.py
 Go to the main tab and open the settings<br />
 Fill in all the parameters for the panel to work correctly<br />
 ![](documentation_images/settings.png)
----
-Click on the file button in the upper right corner and select the jar file of your server which should be in the same folder as the control panel
+
+##### First start
+
+Click on the file button in the upper right corner and select the jar file of your server which should be in the same folder as the control panel<br />
+And press the start button
+![](documentation_images/starting_screen.png)<br />
+Staring*
+![](documentation_images/started_screen.png)
+### Done!
+
+
