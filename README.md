@@ -28,12 +28,6 @@ pip3 install customtkinter
 pip install mcrcon
 ```
 ---
-# Usage
-##### Run scrip
-```
-python main.py 
-```
----
 ##### Enable rcon on server
 Remember to enable these options for the program to work [```server.properties```](https://minecraft.gamepedia.com/Server.properties) file.
 ```
@@ -43,8 +37,14 @@ query.port=25565
 rcon.port=25575
 rcon.password=your_pasword
 ```
+# Usage
+##### Run scrip
+```
+python main.py 
+```
 ---
 Go to the main tab and open the settings<br />
 Fill in all the parameters for the panel to work correctly<br />
 ![](documentation_images/settings.png)
 ---
+Click on the file button in the upper right corner and select the jar file of your server which should be in the same folder as the control panel
