@@ -39,7 +39,7 @@ rcon.port=25575
 rcon.password=your_pasword
 ```
 ---
-Go to the main tab and open the settings__
+Go to the main tab and open the settings<br />
 Fill in all items
 ![](documentation_images/settings.png)
 ---
