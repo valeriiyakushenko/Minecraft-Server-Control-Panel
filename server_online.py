@@ -26,13 +26,13 @@ while True == True:
         data_2 = json.load(json_file2)
 
     try:
-        if data['error'] == "[Errno 111] Connection refused":
+        if data['error'] == "[Errno 111] Connection refused" or data['erorr'] == "timed out":
             print('Minecraft Server api: False')
     except:
         print('Minecraft Server api: True')
 
     try:
-        if data['error'] == "[Errno 111] Connection refused":
+        if data['error'] == "[Errno 111] Connection refused" or data['error'] == "timed out":
             with open(os.path.join('.', 'server_status.yaml'), 'w+') as file:
                 documents = yaml.dump({"server_status": {
                     "online": False,

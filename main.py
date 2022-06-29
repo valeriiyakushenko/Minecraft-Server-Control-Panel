@@ -78,8 +78,8 @@ def status():
 def statusserver():
     global print_text
 
-    server_status = Config(os.path.join('.', 'server_status.yaml'))
-    properties = server_status.get_config('server_status')
+    server_status1 = Config(os.path.join('.', 'server_status.yaml'))
+    properties = server_status1.get_config('server_status')
     server_status_online = properties['online']
 
     if not status() and server_status_online == False:
