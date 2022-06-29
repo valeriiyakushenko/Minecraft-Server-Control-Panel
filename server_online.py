@@ -7,10 +7,11 @@ from config import Config
 
 while True == True:
 
-    config = Config(os.path.join('.', 'config.yaml'))
-    settings = config.get_config('settings_server')
+    config1 = Config(os.path.join('.', 'config.yaml'))
+    settings = config1.get_config('settings_server')
     server_ip = settings['server_ip']
     server_port = settings['server_port']
+
 
     api_status = requests.get(f"https://api.minetools.eu/ping/{server_ip}/{server_port}")
     api_status_2 = requests.get(f"https://api.minetools.eu/query/{server_ip}/{server_port}")
@@ -26,7 +27,7 @@ while True == True:
         data_2 = json.load(json_file2)
 
     try:
-        if data['error'] == "[Errno 111] Connection refused" or data['erorr'] == "timed out":
+        if data['error'] == "[Errno 111] Connection refused" or data['error'] == "timed out":
             print('Minecraft Server api: False')
     except:
         print('Minecraft Server api: True')
