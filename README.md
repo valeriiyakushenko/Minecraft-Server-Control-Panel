@@ -1,12 +1,12 @@
 # Minecraft-Server-Control-Panel
 Control panel for any minecraft server for Mac OS and Linux
-
-![](documentation_images/started_screen.png)
+---
+![](documentation_images/started_screen.png)<br />
 _Main screen for control panel *_
 
 # Control Panel Functions
-![](documentation_images/functions.gif)
-Screenshot Functions *
+![](documentation_images/functions.gif)<br />
+You can change the time, weather, and control the parameters of the player
 
 # Installation
 Install pip:
@@ -39,4 +39,8 @@ query.port=25565
 rcon.port=25575
 rcon.password=your_pasword
 ```
+---
+Go to the main tab and open the settings<br />
+Fill in all items
+![](documentation_images/settings.png)
 ---
