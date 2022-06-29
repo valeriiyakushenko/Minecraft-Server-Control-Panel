@@ -28,7 +28,7 @@ pip3 install customtkinter
 pip install mcrcon
 ```
 ---
-##### Enable rcon on server
+#### Enable rcon on server:
 Remember to enable these options for the program to work [```server.properties```](https://minecraft.gamepedia.com/Server.properties) file.
 ```
 enable-query=true
