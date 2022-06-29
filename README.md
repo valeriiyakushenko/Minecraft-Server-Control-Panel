@@ -9,7 +9,9 @@ _Main screen for control panel *_
 You can change the time, weather, and control the parameters of the player
 
 # Installation
+
 Download the latest release and extract it to your server folder
+
 ---
 Install pip:
 >Run in Control Panel directory 
