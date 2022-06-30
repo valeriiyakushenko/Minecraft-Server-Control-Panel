@@ -13,18 +13,29 @@ _You can change the time, weather, and control the parameters of the player*_
 Download the latest release and extract it to your server folder
 
 ---
+Install python3:
+```
+sudo apt-get install python3
+```
+---
 Install pip:
 >Run in a terminal in a directory with Control Panel 
 ```
 python get-pip.py
 ```
+or
+```
+sudo apt install python3-pip
+```
 ---
 Install pip library's:
 ```
 pip install pyyaml
-
+```
+```
 pip3 install customtkinter
-
+```
+```
 pip install mcrcon
 ```
 ---
@@ -40,7 +51,7 @@ rcon.password=your_pasword
 # Usage
 ##### Run scrip
 ```
-python main.py 
+python3 main.py 
 ```
 ---
 Go to the main tab and open the settings<br />
