@@ -7,6 +7,7 @@ _Main screen for control panel*_
 # Control Panel Functions
 ![](documentation_images/functions.gif)<br />
 _You can change the time, weather, and control the parameters of the player*_
+---
 ![](documentation_images/command.gif)<br />
 _You can write commands to the server and get responses*_
 # Installation
@@ -67,7 +68,7 @@ And press the start button
 
 ![](documentation_images/starting_screen.png)<br />
 _Staring*_
-
+---
 ![](documentation_images/started_screen.png)<br />
 _Started*_
 
