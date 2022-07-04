@@ -12,15 +12,16 @@ from mcrcon import MCRcon as r
 from tkinter.filedialog import askopenfilename
 
 config = Config(os.path.join('.', 'config.yaml'))
-settings = config.get_config('settings_server')
+settings_cfg = config.get_config('settings_server')
 
-fileplace = settings['fileplace']
-maxmemory = settings['maxmemory']
-minmemory = settings['minmemory']
-server_ip = settings['server_ip']
-server_port = settings['server_port']
-rcon_ip = settings['rcon_ip']
-rcon_password = settings['rcon_password']
+fileplace = settings_cfg['fileplace']
+maxmemory = settings_cfg['maxmemory']
+minmemory = settings_cfg['minmemory']
+server_ip = settings_cfg['server_ip']
+server_port = settings_cfg['server_port']
+rcon_ip = settings_cfg['rcon_ip']
+rcon_password = settings_cfg['rcon_password']
+player_name = ''
 
 server_status_online = False
 statustext = ""
@@ -35,30 +36,59 @@ window.image = PhotoImage(file='assets_py/background.png')
 bg_logo = Label(window, image=window.image)
 bg_logo.grid(row=0, column=0)
 
-commandline = Listbox(window, width=62, fg='white', bd=0, height=16, bg='#222831')
+commandline = Listbox(window,
+                      width=62,
+                      fg='white',
+                      bd=0,
+                      height=16,
+                      bg='#222831')
 commandline.place(x=125, y=70)
 
-fileentey = customtkinter.CTkEntry(window, width=500, height=28, bg_color='#393E46', fg_color='#222831',
-                                   text_color='white', placeholder_text="Please, select a server.jar file")
+fileentey = customtkinter.CTkEntry(window,
+                                   width=500,
+                                   height=28,
+                                   bg_color='#393E46',
+                                   fg_color='#222831',
+                                   text_color='white',
+                                   placeholder_text="Please, select a server.jar file")
 fileentey.place(x=125, y=12)
 fileentey.insert(0, fileplace)
 
-commandentey = customtkinter.CTkEntry(window, width=500, height=28, bg_color='#393E46', fg_color='#222831',
+commandentey = customtkinter.CTkEntry(window, width=500,
+                                      height=28,
+                                      bg_color='#393E46',
+                                      fg_color='#222831',
                                       text_color='white')
 commandentey.place(x=125, y=360)
 
-serverlable = customtkinter.CTkLabel(window, width=40, height=20, bg_color='#393E46', text='Server status:',
+serverlable = customtkinter.CTkLabel(window,
+                                     width=40,
+                                     height=20,
+                                     bg_color='#393E46',
+                                     text='Server status:',
                                      text_color='white')
 serverlable.place(x=210, y=43)
 
-infolable = customtkinter.CTkLabel(window, width=40, height=20, bg_color='#393E46', text='',)
+infolable = customtkinter.CTkLabel(window,
+                                   width=40,
+                                   height=20,
+                                   bg_color='#393E46',
+                                   text='',)
 infolable.place(x=310, y=43)
 
-playerlable = customtkinter.CTkLabel(window, width=40, height=20, bg_color='#393E46', text='Players online:',
+playerlable = customtkinter.CTkLabel(window,
+                                     width=40,
+                                     height=20,
+                                     bg_color='#393E46',
+                                     text='Players online:',
                                      text_color='white')
 playerlable.place(x=410, y=43)
 
-infoplayerlable = customtkinter.CTkLabel(window, width=40, height=20, bg_color='#393E46', text='')
+infoplayerlable = customtkinter.CTkLabel(window,
+                                         width=40,
+                                         height=20,
+                                         bg_color='#393E46',
+                                         text='')
 infoplayerlable.place(x=520, y=43)
 
 menubar = Menu(window, bg="#393E46", foreground='white')
@@ -80,28 +110,28 @@ def statusserver():
 
     server_status1 = Config(os.path.join('.', 'server_status.yaml'))
     properties = server_status1.get_config('server_status')
-    server_status_online = properties['online']
+    server_status_online_prop = properties['online']
 
-    if not status() and server_status_online == False:
+    if not status() and server_status_online_prop == False:
         infolable.config(text='Stopped', fg='red')
         infoplayerlable.config(text='0/0', fg='red')
-        if print_text == True:
+        if print_text:
             commandline.insert(END, '  Server stopped')
             print_text = False
-    if status() and server_status_online == False:
+    if status() and server_status_online_prop == False:
         infolable.config(text='Starting', fg='yellow')
         infoplayerlable.config(text='0/0', fg='red')
         commandline.insert(END, '  Server Starting, please wait')
         print_text = True
-    if status() and server_status_online == True:
+    if status() and server_status_online_prop == True:
         infolable.config(text='Started', fg='green')
         players_online_now = properties['players_online_now']
         players_online_max = properties['players_online_max']
         infoplayerlable.config(text=f'{players_online_now}/{players_online_max}', fg='green')
-        if print_text == True:
+        if print_text:
             commandline.insert(END, '  Server started')
             print_text = False
-    if not status() and server_status_online == True:
+    if not status() and server_status_online_prop == True:
         infolable.config(text='Stopping', fg='yellow')
         infoplayerlable.config(text='0/0', fg='red')
         commandline.insert(END, '  Server Stopping, please wait')
@@ -109,7 +139,7 @@ def statusserver():
 
 
 def Thread_Status():
-    while True == True:
+    while True:
         statusserver()
         time.sleep(10)
 
@@ -126,15 +156,15 @@ def fileplacedef():
     fileplace = filename
     fileentey.delete(0, 'end')
     fileentey.insert(0, filename)
-    with open(os.path.join('.', 'config.yaml'), 'w+') as file:
-        documents = yaml.dump({"settings_server": {
+    with open(os.path.join('.', 'config.yaml'), 'w+') as file_1:
+        yaml.dump({"settings_server": {
             "fileplace": f"{filename}",
             "maxmemory": f"{maxmemory}",
             "minmemory": f"{minmemory}",
             "server_ip": f"{server_ip}",
             "server_port": f"{server_port}",
             "rcon_ip": f"{rcon_ip}",
-            "rcon_password": f"{rcon_password}"}}, file)
+            "rcon_password": f"{rcon_password}"}}, file_1)
 
 
 def runcommand():
@@ -173,14 +203,14 @@ def start():
 def stop():
     if status():
         with r(f'{rcon_ip}', f'{rcon_password}') as mcr:
-            command = mcr.command('stop')
+            mcr.command('stop')
     else:
         commandline.insert(END, "  Server Stopped")
 
 
 def openSettings():
-    config = Config(os.path.join('.', 'config.yaml'))
-    settings = config.get_config('settings_server')
+    config_1 = Config(os.path.join('.', 'config.yaml'))
+    settings_cfg_1 = config_1.get_config('settings_server')
 
     global fileplace
     global maxmemory
@@ -190,70 +220,118 @@ def openSettings():
     global rcon_ip
     global rcon_password
 
-    fileplace = settings['fileplace']
-    maxmemory = settings['maxmemory']
-    minmemory = settings['minmemory']
-    server_ip = settings['server_ip']
-    server_port = settings['server_port']
-    rcon_ip = settings['rcon_ip']
-    rcon_password = settings['rcon_password']
+    fileplace = settings_cfg_1['fileplace']
+    maxmemory = settings_cfg_1['maxmemory']
+    minmemory = settings_cfg_1['minmemory']
+    server_ip = settings_cfg_1['server_ip']
+    server_port = settings_cfg_1['server_port']
+    rcon_ip = settings_cfg_1['rcon_ip']
+    rcon_password = settings_cfg_1['rcon_password']
 
     settings = tk.Tk()
     settings.title("Settings")
     settings.geometry("380x400")
     settings.config(bg='#393E46')
 
-    server_ip_lable = customtkinter.CTkLabel(settings, width=40, height=28, bg_color='#393E46', text='Server ip',
-                                         text_color='white')
+    server_ip_lable = customtkinter.CTkLabel(settings,
+                                             width=40,
+                                             height=28,
+                                             bg_color='#393E46',
+                                             text='Server ip',
+                                             text_color='white')
     server_ip_lable.place(x=10, y=8)
 
-    server_port_lable = customtkinter.CTkLabel(settings, width=40, height=28, bg_color='#393E46', text='Server port',
-                                         text_color='white')
+    server_port_lable = customtkinter.CTkLabel(settings,
+                                               width=40,
+                                               height=28,
+                                               bg_color='#393E46',
+                                               text='Server port',
+                                               text_color='white')
     server_port_lable.place(x=10, y=48)
 
-    maxmemlable = customtkinter.CTkLabel(settings, width=40, height=28, bg_color='#393E46', text='Max memory',
+    maxmemlable = customtkinter.CTkLabel(settings,
+                                         width=40,
+                                         height=28,
+                                         bg_color='#393E46',
+                                         text='Max memory',
                                          text_color='white')
     maxmemlable.place(x=10, y=88)
 
-    minmemlable = customtkinter.CTkLabel(settings, width=40, height=28, bg_color='#393E46', text='Min memory',
+    minmemlable = customtkinter.CTkLabel(settings,
+                                         width=40,
+                                         height=28,
+                                         bg_color='#393E46',
+                                         text='Min memory',
                                          text_color='white')
     minmemlable.place(x=10, y=128)
 
-    rcon_ip_lable = customtkinter.CTkLabel(settings, width=40, height=28, bg_color='#393E46', text='Rcon ip',
-                                         text_color='white')
+    rcon_ip_lable = customtkinter.CTkLabel(settings,
+                                           width=40,
+                                           height=28,
+                                           bg_color='#393E46',
+                                           text='Rcon ip',
+                                           text_color='white')
     rcon_ip_lable.place(x=10, y=168)
 
-    rcon_password_lable = customtkinter.CTkLabel(settings, width=40, height=28, bg_color='#393E46', text='Rcon password',
-                                         text_color='white')
+    rcon_password_lable = customtkinter.CTkLabel(settings,
+                                                 width=40,
+                                                 height=28,
+                                                 bg_color='#393E46',
+                                                 text='Rcon password',
+                                                 text_color='white')
     rcon_password_lable.place(x=10, y=208)
 
-    server_ip_entry = customtkinter.CTkEntry(settings, width=250, height=28, bg_color='#393E46', fg_color='#222831',
-                                       text_color='white')
+    server_ip_entry = customtkinter.CTkEntry(settings,
+                                             width=250,
+                                             height=28,
+                                             bg_color='#393E46',
+                                             fg_color='#222831',
+                                             text_color='white')
     server_ip_entry.place(x=120, y=8)
     server_ip_entry.insert(0, server_ip)
 
-    server_port_entry = customtkinter.CTkEntry(settings, width=250, height=28, bg_color='#393E46', fg_color='#222831',
-                                       text_color='white')
+    server_port_entry = customtkinter.CTkEntry(settings,
+                                               width=250,
+                                               height=28,
+                                               bg_color='#393E46',
+                                               fg_color='#222831',
+                                               text_color='white')
     server_port_entry.place(x=120, y=48)
     server_port_entry.insert(0, server_port)
 
-    maxmementry = customtkinter.CTkEntry(settings, width=250, height=28, bg_color='#393E46', fg_color='#222831',
-                                       text_color='white')
+    maxmementry = customtkinter.CTkEntry(settings,
+                                         width=250,
+                                         height=28,
+                                         bg_color='#393E46',
+                                         fg_color='#222831',
+                                         text_color='white')
     maxmementry.place(x=120, y=88)
     maxmementry.insert(0, maxmemory)
 
-    minmementry = customtkinter.CTkEntry(settings, width=250, height=28, bg_color='#393E46', fg_color='#222831',
+    minmementry = customtkinter.CTkEntry(settings,
+                                         width=250,
+                                         height=28,
+                                         bg_color='#393E46',
+                                         fg_color='#222831',
                                          text_color='white')
     minmementry.place(x=120, y=128)
     minmementry.insert(0, minmemory)
 
-    rcon_ip_entry = customtkinter.CTkEntry(settings, width=250, height=28, bg_color='#393E46', fg_color='#222831',
-                                         text_color='white')
+    rcon_ip_entry = customtkinter.CTkEntry(settings,
+                                           width=250,
+                                           height=28,
+                                           bg_color='#393E46',
+                                           fg_color='#222831',
+                                           text_color='white')
     rcon_ip_entry.place(x=120, y=168)
     rcon_ip_entry.insert(0, rcon_ip)
 
-    rcon_password_entry = customtkinter.CTkEntry(settings, width=250, height=28, bg_color='#393E46', fg_color='#222831',
-                                         text_color='white')
+    rcon_password_entry = customtkinter.CTkEntry(settings,
+                                                 width=250,
+                                                 height=28,
+                                                 bg_color='#393E46',
+                                                 fg_color='#222831',
+                                                 text_color='white')
     rcon_password_entry.place(x=120, y=208)
     rcon_password_entry.insert(0, rcon_password)
 
@@ -273,20 +351,18 @@ def openSettings():
         ip_rcon = rcon_ip_entry.get()
         password = rcon_password_entry.get()
 
-
-        fileplace = fileplace
         maxmemory = max
         minmemory = min
 
-        with open(os.path.join('.', 'config.yaml'), 'w+') as file:
-            documents = yaml.dump({"settings_server": {
+        with open(os.path.join('.', 'config.yaml'), 'w+') as file_2:
+            yaml.dump({"settings_server": {
                 "fileplace": f"{fileplace}",
                 "maxmemory": f"{max}",
                 "minmemory": f"{min}",
                 "server_ip": f"{ip_server}",
                 "server_port": f"{port}",
                 "rcon_ip": f"{ip_rcon}",
-                "rcon_password": f"{password}"}}, file)
+                "rcon_password": f"{password}"}}, file_2)
         settings.destroy()
 
     def default():
@@ -303,16 +379,34 @@ def openSettings():
         rcon_password_entry.insert(0, '')
         rcon_ip_entry.insert(0, '0.0.0.0')
 
-    ok = customtkinter.CTkButton(settings, text="Save", text_color='black', bg_color='#393E46', fg_color='#EEEEEE',
-                                       width=80, height=26, command=save)
+    ok = customtkinter.CTkButton(settings,
+                                 text="Save",
+                                 text_color='black',
+                                 bg_color='#393E46',
+                                 fg_color='#EEEEEE',
+                                 width=80,
+                                 height=26,
+                                 command=save)
     ok.place(x=285, y=360)
 
-    cancel = customtkinter.CTkButton(settings, text="Cancel", text_color='black', bg_color='#393E46', fg_color='#EEEEEE',
-                                       width=80, height=26, command=settings.destroy)
+    cancel = customtkinter.CTkButton(settings,
+                                     text="Cancel",
+                                     text_color='black',
+                                     bg_color='#393E46',
+                                     fg_color='#EEEEEE',
+                                     width=80,
+                                     height=26,
+                                     command=settings.destroy)
     cancel.place(x=190, y=360)
 
-    default = customtkinter.CTkButton(settings, text="Default", text_color='black', bg_color='#393E46', fg_color='#EEEEEE',
-                                       width=80, height=26, command=default)
+    default = customtkinter.CTkButton(settings,
+                                      text="Default",
+                                      text_color='black',
+                                      bg_color='#393E46',
+                                      fg_color='#EEEEEE',
+                                      width=80,
+                                      height=26,
+                                      command=default)
     default.place(x=14, y=360)
 
     settings.resizable(width=False, height=False)
@@ -320,52 +414,76 @@ def openSettings():
 
 
 def settime():
-    time = tk.Tk()
-    time.title("Time")
-    time.geometry("140x182")
-    time.config(bg='#393E46')
+    time_window = tk.Tk()
+    time_window.title("Time")
+    time_window.geometry("140x182")
+    time_window.config(bg='#393E46')
 
     def day():
         with r(f'{rcon_ip}', f'{rcon_password}') as mcr:
             command = mcr.command('time set day')
         commandline.insert(END, f'  {command}')
-        time.destroy()
+        time_window.destroy()
 
     def midnight():
         with r(f'{rcon_ip}', f'{rcon_password}') as mcr:
             command = mcr.command('time set midnight')
         commandline.insert(END, f'  {command}')
-        time.destroy()
+        time_window.destroy()
 
     def night():
         with r(f'{rcon_ip}', f'{rcon_password}') as mcr:
             command = mcr.command('time set night')
         commandline.insert(END, f'  {command}')
-        time.destroy()
+        time_window.destroy()
 
     def noon():
         with r(f'{rcon_ip}', f'{rcon_password}') as mcr:
             command = mcr.command('time set noon')
         commandline.insert(END, f'  {command}')
-        time.destroy()
+        time_window.destroy()
 
-    setday = customtkinter.CTkButton(time, text="Day", text_color='black', bg_color='#393E46', fg_color='#EEEEEE',
-                                     width=110, height=28, command=day)
+    setday = customtkinter.CTkButton(time_window,
+                                     text="Day",
+                                     text_color='black',
+                                     bg_color='#393E46',
+                                     fg_color='#EEEEEE',
+                                     width=110,
+                                     height=28,
+                                     command=day)
     setday.place(x=14, y=14)
 
-    setmidnight = customtkinter.CTkButton(time, text="Midnight", text_color='black', bg_color='#393E46', fg_color='#EEEEEE',
-                                          width=110, height=28, command=midnight)
+    setmidnight = customtkinter.CTkButton(time_window,
+                                          text="Midnight",
+                                          text_color='black',
+                                          bg_color='#393E46',
+                                          fg_color='#EEEEEE',
+                                          width=110,
+                                          height=28,
+                                          command=midnight)
     setmidnight.place(x=14, y=140)
 
-    setnight = customtkinter.CTkButton(time, text="Night", text_color='black', bg_color='#393E46', fg_color='#EEEEEE',
-                                       width=110, height=28, command=night)
+    setnight = customtkinter.CTkButton(time_window,
+                                       text="Night",
+                                       text_color='black',
+                                       bg_color='#393E46',
+                                       fg_color='#EEEEEE',
+                                       width=110,
+                                       height=28,
+                                       command=night)
     setnight.place(x=14, y=98)
 
-    setnoon = customtkinter.CTkButton(time, text="Noon", text_color='black', bg_color='#393E46', fg_color='#EEEEEE',
-                                      width=110, height=28, command=noon)
+    setnoon = customtkinter.CTkButton(time_window,
+                                      text="Noon",
+                                      text_color='black',
+                                      bg_color='#393E46',
+                                      fg_color='#EEEEEE',
+                                      width=110,
+                                      height=28,
+                                      command=noon)
     setnoon.place(x=14, y=56)
 
-    time.mainloop()
+    time_window.mainloop()
 
 
 def setweather():
@@ -392,16 +510,34 @@ def setweather():
         commandline.insert(END, f'  {command}')
         weather.destroy()
 
-    setclear = customtkinter.CTkButton(weather, text="Clear", text_color='black', bg_color='#393E46', fg_color='#EEEEEE',
-                                       width=110, height=28, command=clear)
+    setclear = customtkinter.CTkButton(weather,
+                                       text="Clear",
+                                       text_color='black',
+                                       bg_color='#393E46',
+                                       fg_color='#EEEEEE',
+                                       width=110,
+                                       height=28,
+                                       command=clear)
     setclear.place(x=14, y=14)
 
-    setrain = customtkinter.CTkButton(weather, text="Rain", text_color='black', bg_color='#393E46', fg_color='#EEEEEE',
-                                      width=110, height=28, command=rain)
+    setrain = customtkinter.CTkButton(weather,
+                                      text="Rain",
+                                      text_color='black',
+                                      bg_color='#393E46',
+                                      fg_color='#EEEEEE',
+                                      width=110,
+                                      height=28,
+                                      command=rain)
     setrain.place(x=14, y=56)
 
-    setthunder = customtkinter.CTkButton(weather, text="Thunder", text_color='black', bg_color='#393E46', fg_color='#EEEEEE',
-                                         width=110, height=28, command=thunder)
+    setthunder = customtkinter.CTkButton(weather,
+                                         text="Thunder",
+                                         text_color='black',
+                                         bg_color='#393E46',
+                                         fg_color='#EEEEEE',
+                                         width=110,
+                                         height=28,
+                                         command=thunder)
     setthunder.place(x=14, y=98)
 
     weather.mainloop()
@@ -436,58 +572,66 @@ def player_list_def():
         global player_name
         print("optionmenu dropdown clicked:", player_name)
         player_list_window.geometry("250x240")
-        def gamemode():
-            gamemode = tk.Tk()
-            gamemode.title('Gamemode')
-            gamemode.geometry("250x195")
-            gamemode.config(bg='#393E46')
+        def gamemode_def():
+            gamemode_window = tk.Tk()
+            gamemode_window.title('Gamemode')
+            gamemode_window.geometry("250x195")
+            gamemode_window.config(bg='#393E46')
 
             def adventure():
                 with r(f'{rcon_ip}', f'{rcon_password}') as mcr:
                     command = mcr.command(f'gamemode adventure {player_name}')
                 commandline.insert(END, f'  {command}')
-                gamemode.destroy()
+                gamemode_window.destroy()
 
             def creative():
                 with r(f'{rcon_ip}', f'{rcon_password}') as mcr:
                     command = mcr.command(f'gamemode creative {player_name}')
                 commandline.insert(END, f'  {command}')
-                gamemode.destroy()
+                gamemode_window.destroy()
 
             def spectrator():
                 with r(f'{rcon_ip}', f'{rcon_password}') as mcr:
                     command = mcr.command(f'gamemode spectrator {player_name}')
                 commandline.insert(END, f'  {command}')
-                gamemode.destroy()
+                gamemode_window.destroy()
 
             def survival():
                 with r(f'{rcon_ip}', f'{rcon_password}') as mcr:
                     command = mcr.command(f'gamemode survival {player_name}')
                 commandline.insert(END, f'  {command}')
-                gamemode.destroy()
+                gamemode_window.destroy()
 
-            creative = customtkinter.CTkButton(gamemode, text="Creative", text_color='black',
+            creative = customtkinter.CTkButton(gamemode_window, text="Creative", text_color='black',
                                                bg_color='#393E46',
                                                fg_color='#EEEEEE',
                                                width=210, height=30, command=creative)
             creative.place(x=20, y=15)
 
-            survival = customtkinter.CTkButton(gamemode, text="Survival", text_color='black',
+            survival = customtkinter.CTkButton(gamemode_window, text="Survival", text_color='black',
                                                bg_color='#393E46',
                                                fg_color='#EEEEEE',
                                                width=210, height=30, command=survival)
             survival.place(x=20, y=60)
 
-            adventure = customtkinter.CTkButton(gamemode, text="Adventure", text_color='black',
-                                               bg_color='#393E46',
-                                               fg_color='#EEEEEE',
-                                               width=210, height=30, command=adventure)
+            adventure = customtkinter.CTkButton(gamemode_window,
+                                                text="Adventure",
+                                                text_color='black',
+                                                bg_color='#393E46',
+                                                fg_color='#EEEEEE',
+                                                width=210,
+                                                height=30,
+                                                command=adventure)
             adventure.place(x=20, y=105)
 
-            spectrator = customtkinter.CTkButton(gamemode, text="Spectrator", text_color='black',
-                                               bg_color='#393E46',
-                                               fg_color='#EEEEEE',
-                                               width=210, height=30, command=spectrator)
+            spectrator = customtkinter.CTkButton(gamemode_window,
+                                                 text="Spectrator",
+                                                 text_color='black',
+                                                 bg_color='#393E46',
+                                                 fg_color='#EEEEEE',
+                                                 width=210,
+                                                 height=30,
+                                                 command=spectrator)
             spectrator.place(x=20, y=150)
 
         def operator():
@@ -495,37 +639,53 @@ def player_list_def():
                 command = mcr.command(f'op {player_name}')
             if command == "Nothing changed. The player already is an operator":
                 operator_info = tk.Tk()
-                operator_info.title('Operetor')
+                operator_info.title('Operator')
                 operator_info.geometry("250x168")
                 operator_info.config(bg='#393E46')
 
                 def answer_yes():
-                    with r(f'{rcon_ip}', f'{rcon_password}') as mcr:
-                        command = mcr.command(f'deop {player_name}')
-                    commandline.insert(END, f'  {command}')
+                    with r(f'{rcon_ip}', f'{rcon_password}') as mcr_1:
+                        command_1 = mcr_1.command(f'deop {player_name}')
+                    commandline.insert(END, f'  {command_1}')
                     operator_info.destroy()
 
                 def answer_no():
                     operator_info.destroy()
 
-                lable1 = customtkinter.CTkLabel(operator_info, width=200, height=40, bg_color='#393E46',
+                lable1 = customtkinter.CTkLabel(operator_info,
+                                                width=200,
+                                                height=40,
+                                                bg_color='#393E46',
                                                 text=f'{player_name} already\nis an operator',
                                                 text_color='white')
                 lable1.place(x=25, y=10)
 
-                lable2 = customtkinter.CTkLabel(operator_info, width=200, height=40, bg_color='#393E46',
+                lable2 = customtkinter.CTkLabel(operator_info,
+                                                width=200,
+                                                height=40,
+                                                bg_color='#393E46',
                                                 text=f'Revokes operator\nstatus from {player_name}?',
                                                 text_color='white')
                 lable2.place(x=25, y=60)
 
-                yes = customtkinter.CTkButton(operator_info, text="Yes", text_color='black', bg_color='#393E46',
+                yes = customtkinter.CTkButton(operator_info,
+                                              text="Yes",
+                                              text_color='black',
+                                              bg_color='#393E46',
                                               fg_color='#EEEEEE',
-                                              width=50, height=28, command=answer_yes)
+                                              width=50,
+                                              height=28,
+                                              command=answer_yes)
                 yes.place(x=180, y=120)
 
-                no = customtkinter.CTkButton(operator_info, text="No", text_color='black', bg_color='#393E46',
-                                              fg_color='#EEEEEE',
-                                              width=50, height=28, command=answer_no)
+                no = customtkinter.CTkButton(operator_info,
+                                             text="No",
+                                             text_color='black',
+                                             bg_color='#393E46',
+                                             fg_color='#EEEEEE',
+                                             width=50,
+                                             height=28,
+                                             command=answer_no)
                 no.place(x=20, y=120)
 
             else:
@@ -541,24 +701,44 @@ def player_list_def():
                 command = mcr.command(f'kill {player_name}')
             commandline.insert(END, f'  {command}')
 
-        gamemode = customtkinter.CTkButton(player_list_window, text="Gamemode", text_color='black', bg_color='#393E46',
+        gamemode = customtkinter.CTkButton(player_list_window,
+                                           text="Gamemode",
+                                           text_color='black',
+                                           bg_color='#393E46',
                                            fg_color='#EEEEEE',
-                                           width=210, height=30, command=gamemode)
+                                           width=210,
+                                           height=30,
+                                           command=gamemode_def)
         gamemode.place(x=20, y=60)
 
-        operator = customtkinter.CTkButton(player_list_window, text="Operator", text_color='black', bg_color='#393E46',
+        operator = customtkinter.CTkButton(player_list_window,
+                                           text="Operator",
+                                           text_color='black',
+                                           bg_color='#393E46',
                                            fg_color='#EEEEEE',
-                                           width=210, height=30, command=operator)
+                                           width=210,
+                                           height=30,
+                                           command=operator)
         operator.place(x=20, y=105)
 
-        ban = customtkinter.CTkButton(player_list_window, text="Ban", text_color='black', bg_color='#393E46',
-                                           fg_color='#EEEEEE',
-                                           width=210, height=30, command=ban)
+        ban = customtkinter.CTkButton(player_list_window,
+                                      text="Ban",
+                                      text_color='black',
+                                      bg_color='#393E46',
+                                      fg_color='#EEEEEE',
+                                      width=210,
+                                      height=30,
+                                      command=ban)
         ban.place(x=20, y=150)
 
-        kill = customtkinter.CTkButton(player_list_window, text="Kill", text_color='black', bg_color='#393E46',
-                                           fg_color='#EEEEEE',
-                                           width=210, height=30, command=kill)
+        kill = customtkinter.CTkButton(player_list_window,
+                                       text="Kill",
+                                       text_color='black',
+                                       bg_color='#393E46',
+                                       fg_color='#EEEEEE',
+                                       width=210,
+                                       height=30,
+                                       command=kill)
         kill.place(x=20, y=195)
 
     combobox = customtkinter.CTkOptionMenu(player_list_window,
@@ -589,32 +769,74 @@ menubar.add_cascade(
 
 myFont = font.Font(size=12)
 
-start = customtkinter.CTkButton(window, text="Start", text_color='black', bg_color='#00ADB5', fg_color='#EEEEEE',
-                                width=88, height=38, command=start)
+start = customtkinter.CTkButton(window,
+                                text="Start",
+                                text_color='black',
+                                bg_color='#00ADB5',
+                                fg_color='#EEEEEE',
+                                width=88,
+                                height=38,
+                                command=start)
 start.place(x=12, y=12)
 
-stop = customtkinter.CTkButton(window, text="Stop", text_color='black', bg_color='#00ADB5', fg_color='#EEEEEE',
-                               width=88, height=38, command=stop)
+stop = customtkinter.CTkButton(window,
+                               text="Stop",
+                               text_color='black',
+                               bg_color='#00ADB5',
+                               fg_color='#EEEEEE',
+                               width=88,
+                               height=38,
+                               command=stop)
 stop.place(x=12, y=62)
 
-timeset = customtkinter.CTkButton(window, text="Time", text_color='black', bg_color='#00ADB5', fg_color='#EEEEEE',
-                                  width=88, height=38, command=settime)
+timeset = customtkinter.CTkButton(window,
+                                  text="Time",
+                                  text_color='black',
+                                  bg_color='#00ADB5',
+                                  fg_color='#EEEEEE',
+                                  width=88,
+                                  height=38,
+                                  command=settime)
 timeset.place(x=12, y=250)
 
-weatherset = customtkinter.CTkButton(window, text="Weather", text_color='black', bg_color='#00ADB5', fg_color='#EEEEEE',
-                                     width=88, height=38, command=setweather)
+weatherset = customtkinter.CTkButton(window,
+                                     text="Weather",
+                                     text_color='black',
+                                     bg_color='#00ADB5',
+                                     fg_color='#EEEEEE',
+                                     width=88,
+                                     height=38,
+                                     command=setweather)
 weatherset.place(x=12, y=300)
 
-playerlist = customtkinter.CTkButton(window, text="Players", text_color='black', bg_color='#00ADB5', fg_color='#EEEEEE',
-                                     width=88, height=38, command=player_list_def)
+playerlist = customtkinter.CTkButton(window,
+                                     text="Players",
+                                     text_color='black',
+                                     bg_color='#00ADB5',
+                                     fg_color='#EEEEEE',
+                                     width=88,
+                                     height=38,
+                                     command=player_list_def)
 playerlist.place(x=12, y=350)
 
-file = customtkinter.CTkButton(window, text="File", text_color='black', bg_color='#393E46', fg_color='#EEEEEE',
-                               width=50, height=28, command=fileplacedef)
+file = customtkinter.CTkButton(window,
+                               text="File",
+                               text_color='black',
+                               bg_color='#393E46',
+                               fg_color='#EEEEEE',
+                               width=50,
+                               height=28,
+                               command=fileplacedef)
 file.place(x=635, y=12)
 
-run = customtkinter.CTkButton(window, text="Run", text_color='black', bg_color='#393E46', fg_color='#EEEEEE',
-                              width=50, height=28, command=runcommand)
+run = customtkinter.CTkButton(window,
+                              text="Run",
+                              text_color='black',
+                              bg_color='#393E46',
+                              fg_color='#EEEEEE',
+                              width=50,
+                              height=28,
+                              command=runcommand)
 run.place(x=635, y=358)
 
 window.resizable(width=False, height=False)
