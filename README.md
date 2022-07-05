@@ -19,6 +19,7 @@ Download the latest release and extract it to your server folder
 Install python3:
 ```
 sudo apt-get install python3
+sudo apt-get install python3-tk
 ```
 ---
 Install pip:
