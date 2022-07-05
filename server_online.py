@@ -28,12 +28,6 @@ while True == True:
 
     try:
         if data['error'] == "[Errno 111] Connection refused" or data['error'] == "timed out":
-            print('Minecraft Server api: False')
-    except:
-        print('Minecraft Server api: True')
-
-    try:
-        if data['error'] == "[Errno 111] Connection refused" or data['error'] == "timed out":
             with open(os.path.join('.', 'server_status.yaml'), 'w+') as file:
                 documents = yaml.dump({"server_status": {
                     "online": False,
@@ -47,10 +41,17 @@ while True == True:
         players_online = config.get_config('players')
 
         with open(os.path.join('.', 'server_status.yaml'), 'w+') as file:
-            documents = yaml.dump({"server_status": {
-                "online": True,
-                "players_online_now": players_online['online'],
-                "players_online_max": players_online['max'],
-                "players_online_list": data_2['Playerlist']}}, file)
+            try:
+                documents = yaml.dump({"server_status": {
+                    "online": True,
+                    "players_online_now": players_online['online'],
+                    "players_online_max": players_online['max'],
+                    "players_online_list": data_2['Playerlist']}}, file)
+            except:
+                documents = yaml.dump({"server_status": {
+                    "online": True,
+                    "players_online_now": players_online['online'],
+                    "players_online_max": players_online['max'],
+                    "players_online_list": ""}}, file)
 
         time.sleep(10)
