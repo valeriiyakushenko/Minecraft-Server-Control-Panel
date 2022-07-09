@@ -27,10 +27,13 @@ server_status_online = False
 statustext = ""
 statuscolor = ""
 print_text = False
+java_restart = False
 
 window = tk.Tk()
 window.title("Minecraft Server Control Panel")
 window.geometry('700x400')
+main_icon = PhotoImage(file="assets_py/main_icon.png")
+window.iconphoto(False, main_icon)
 
 window.image = PhotoImage(file='assets_py/background.png')
 bg_logo = Label(window, image=window.image)
@@ -73,7 +76,7 @@ infolable = customtkinter.CTkLabel(window,
                                    width=40,
                                    height=20,
                                    bg_color='#393E46',
-                                   text='',)
+                                   text='', )
 infolable.place(x=310, y=43)
 
 playerlable = customtkinter.CTkLabel(window,
@@ -207,6 +210,28 @@ def stop():
     else:
         commandline.insert(END, "  Server Stopped")
 
+
+def restart_java():
+    global java_restart
+
+    if status():
+        with r(f'{rcon_ip}', f'{rcon_password}') as mcr:
+            mcr.command('stop')
+
+        while not java_restart:
+            if status():
+                java_restart = False
+                print(1)
+                time.sleep(1)
+            else:
+                os.system(f'screen -dmS "minecraft" java -Xmx{maxmemory}M -Xms{minmemory}M -jar {fileplace}')
+                java_restart = True
+                print(2)
+                time.sleep(1)
+        java_restart = False
+
+    else:
+        commandline.insert(END, "  Server Stopped")
 
 def openSettings():
     config_1 = Config(os.path.join('.', 'config.yaml'))
@@ -572,6 +597,7 @@ def player_list_def():
         global player_name
         print("optionmenu dropdown clicked:", player_name)
         player_list_window.geometry("250x240")
+
         def gamemode_def():
             gamemode_window = tk.Tk()
             gamemode_window.title('Gamemode')
@@ -788,6 +814,16 @@ stop = customtkinter.CTkButton(window,
                                height=38,
                                command=stop)
 stop.place(x=12, y=62)
+
+restart = customtkinter.CTkButton(window,
+                                  text="Restart",
+                                  text_color='black',
+                                  bg_color='#00ADB5',
+                                  fg_color='#EEEEEE',
+                                  width=88,
+                                  height=38,
+                                  command=restart_java)
+restart.place(x=12, y=112)
 
 timeset = customtkinter.CTkButton(window,
                                   text="Time",
