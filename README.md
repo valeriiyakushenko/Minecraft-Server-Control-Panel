@@ -19,6 +19,7 @@ Download the latest release and extract it to your server folder
 Install python3:
 ```
 sudo apt-get install python3
+sudo apt-get install python3-tk
 ```
 ---
 Install pip:
@@ -56,6 +57,8 @@ rcon.password=your_pasword
 ```
 python3 main.py 
 ```
+or
+>Double click on start.sh
 ---
 Go to the main tab and open the settings<br />
 Fill in all the parameters for the panel to work correctly<br />
