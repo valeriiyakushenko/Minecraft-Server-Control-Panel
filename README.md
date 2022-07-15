@@ -2,8 +2,8 @@
 ### Control panel for any minecraft server for Mac OS and Linux
 ![](documentation_images/started_screen.png)<br />
 _Main screen for control panel*_
-
-# Control Panel Functions
+---
+### Control Panel Functions
 ![](documentation_images/functions.gif)<br />
 _You can change the time, weather, and control the parameters of the player*_
 
