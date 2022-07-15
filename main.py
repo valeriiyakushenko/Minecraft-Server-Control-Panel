@@ -195,6 +195,44 @@ th1 = Thread(target=Status_Thread)
 th1.daemon = True
 th1.start()
 
+def info():
+    info_window = tk.Toplevel()
+    info_window.title("About Control-Panel")
+    info_window.geometry("320x160")
+    info_window.config(bg='#393E46')
+
+    program_image = PhotoImage(file='assets_py/program_icon.png')
+    button = customtkinter.CTkButton(info_window,
+                                     width=15,
+                                     height=15,
+                                     text='',
+                                     fg_color='#393E46',
+                                     border_color='#393E46',
+                                     image=program_image)
+    button.place(x=135, y=15)
+
+    program_name = customtkinter.CTkLabel(info_window,
+                                          width=260,
+                                          height=20,
+                                          bg_color='#393E46',
+                                          text='Server-Control_Panel')
+    program_name.place(x=30, y=75)
+
+    program_type = customtkinter.CTkLabel(info_window,
+                                             width=260,
+                                             height=20,
+                                             bg_color='#393E46',
+                                             text='(For any server)')
+    program_type.place(x=30, y=100)
+
+    program_version = customtkinter.CTkLabel(info_window,
+                                             width=260,
+                                             height=20,
+                                             bg_color='#393E46',
+                                             text='Version (1.1)')
+    program_version.place(x=30, y=125)
+
+
 
 def start():
     if not status():
@@ -776,6 +814,10 @@ def player_list_def():
                                            command=player_select)
     combobox.place(x=20, y=15)
 
+main_menu.add_command(
+    label='About Control-Panel',
+    command=info,
+)
 
 main_menu.add_command(
     label='Settings',
