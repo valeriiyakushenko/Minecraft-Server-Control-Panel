@@ -1,5 +1,5 @@
-# Minecraft-Server-Control-Panel
-Control panel for any minecraft server for Mac OS and Linux
+# Minecraft-Server-Control-Panel (Any server)
+###Control panel for any minecraft server for Mac OS and Linux
 ---
 ![](documentation_images/started_screen.png)<br />
 _Main screen for control panel*_
