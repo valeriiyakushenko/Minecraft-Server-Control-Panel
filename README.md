@@ -52,9 +52,9 @@ rcon.port=25575
 rcon.password=your_pasword
 ```
 ---
-#### Go to the main tab and open the settings<br />
-![](documentation_images/settings_screen.png)
+#### Go to the main tab and open the settings:<br />
 Fill in all the parameters for the panel to work correctly<br />
+![](documentation_images/settings_screen.png)
 
 # Usage
 ##### Run scrip
