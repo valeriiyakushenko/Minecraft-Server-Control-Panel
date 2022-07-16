@@ -215,6 +215,7 @@ def info():
                                           width=260,
                                           height=20,
                                           bg_color='#393E46',
+                                          text_color='white',
                                           text='Server-Control_Panel')
     program_name.place(x=30, y=75)
 
@@ -222,12 +223,14 @@ def info():
                                           width=260,
                                           height=20,
                                           bg_color='#393E46',
+                                          text_color='white',
                                           text='(For any server)')
     program_type.place(x=30, y=100)
 
     program_version = customtkinter.CTkLabel(info_window,
                                              width=260,
                                              height=20,
+                                             text_color='white',
                                              bg_color='#393E46',
                                              text='Version (1.2)')
     program_version.place(x=30, y=125)
