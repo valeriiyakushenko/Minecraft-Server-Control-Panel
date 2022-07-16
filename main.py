@@ -830,6 +830,8 @@ def statistic_def():
         copper_int = statistics_config.get_config('Copper')
         redstone_int = statistics_config.get_config('Redstone')
         lapis_int = statistics_config.get_config('Lapis')
+        deaths_int = statistics_config.get_config('Deaths')
+        killings_int = statistics_config.get_config('Killings')
 
         mining = customtkinter.CTkLabel(statistic_window,
                                         width=320,
@@ -905,14 +907,14 @@ def statistic_def():
                                           width=50,
                                           height=20,
                                           bg_color='#393E46',
-                                          text='Killings: ')
+                                          text=f'Killings: {killings_int}')
         killings.place(x=12, y=315)
 
         deaths = customtkinter.CTkLabel(statistic_window,
                                         width=50,
                                         height=20,
                                         bg_color='#393E46',
-                                        text='Deaths: ')
+                                        text=f'Deaths: {deaths_int}')
         deaths.place(x=12, y=345)
 
     load_statistic()
