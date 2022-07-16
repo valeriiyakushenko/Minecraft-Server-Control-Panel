@@ -1,6 +1,7 @@
 # Minecraft-Server-Control-Panel  (With Plugin) 
 ### Control panel for Bukkit and Spigot minecraft server for Mac OS and Linux
 ![](documentation_images/started_screen.png)<br />
+![](documentation_images/about_screen.png)<br />
 _Main screen for control panel*_
 
 # Control Panel Functions
