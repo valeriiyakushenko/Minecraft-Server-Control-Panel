@@ -2,7 +2,7 @@ settings_server:
   fileplace: ''
   maxmemory: '2048'
   minmemory: '1024'
-  rcon_ip: 0.0.0.0
+  rcon_port: '25575'
   rcon_password: 'your_password'
   server_ip: 'example.com'
   server_port: '25565'

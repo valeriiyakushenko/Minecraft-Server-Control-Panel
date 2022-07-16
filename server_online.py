@@ -5,7 +5,7 @@ import json
 import requests
 from config import Config
 
-while True == True:
+while True:
 
     config1 = Config(os.path.join('.', 'config.yaml'))
     settings = config1.get_config('settings_server')
