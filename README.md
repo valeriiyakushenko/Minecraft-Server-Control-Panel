@@ -61,9 +61,12 @@ or
 ---
 Go to the main tab and open the settings<br />
 Fill in all the parameters for the panel to work correctly<br />
-![](documentation_images/settings.png)
+![](documentation_images/settings_screen.png)
 
 #### First start
+
+![](documentation_images/stopped_screen.png)<br />
+_Staring*_
 
 Click on the file button in the upper right corner and select the jar file of your server which should be in the same folder as the control panel<br />
 
