@@ -3,7 +3,7 @@
 ![](documentation_images/started_screen.png)<br />
 _Main screen for control panel*_
 
-### Control Panel Functions
+## Control Panel Functions
 ![](documentation_images/functions.gif)<br />
 _You can change the time, weather, and control the parameters of the player*_
 
@@ -63,7 +63,7 @@ python3 main.py
 ```
 or
 >Double click on start.sh
-
+---
 ![](documentation_images/stopped_screen.png)<br />
 _Stopped*_
 
