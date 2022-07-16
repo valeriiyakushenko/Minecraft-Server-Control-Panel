@@ -13,6 +13,10 @@ _You can change the time, weather, and control the parameters of the player*_
 ---
 ![](documentation_images/command.gif)<br />
 _You can write commands to the server and get responses*_
+
+---
+![](documentation_images/statistics_screen.png)<br />
+_You can see server statistics*_
 # Installation
 
 Download the latest release and extract it to your server folder
