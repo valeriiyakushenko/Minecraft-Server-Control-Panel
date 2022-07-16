@@ -56,20 +56,19 @@ rcon.password=your_pasword
 Fill in all the parameters for the panel to work correctly<br />
 ![](documentation_images/settings_screen.png)
 
-# Usage
+# First start
 ##### Run scrip
 ```
 python3 main.py 
 ```
 or
 >Double click on start.sh
-# First start
 
 ![](documentation_images/stopped_screen.png)<br />
 _Stopped*_
 
-#####Click on the file button in the upper right corner and select the jar file of your server which should be in the same folder as the control panel<br />
-#####And press the start button<br />
+##### Click on the file button in the upper right corner and select the jar file of your server which should be in the same folder as the control panel<br />
+##### And press the start button<br />
 
 ![](documentation_images/starting_screen.png)<br />
 _Staring*_
