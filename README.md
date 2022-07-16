@@ -3,9 +3,6 @@
 ![](documentation_images/started_screen.png)<br />
 _Main screen for control panel*_
 
-![](documentation_images/about_screen.png)<br />
-_About  screen for control panel*_
-
 ## Control Panel Functions
 ![](documentation_images/functions.gif)<br />
 _You can change the time, weather, and control the parameters of the player*_
@@ -82,5 +79,9 @@ _Staring*_
 _Started*_
 
 ### Done! You can use program 
+
+
+![](documentation_images/about_screen.png)<br />
+_About  screen for control panel*_
 
 
