@@ -60,8 +60,10 @@ or
 >Double click on start.sh
 ---
 Go to the main tab and open the settings<br />
-Fill in all the parameters for the panel to work correctly<br />
 ![](documentation_images/settings_screen.png)
+Fill in all the parameters for the panel to work correctly<br />
+
+---
 
 # First start
 
