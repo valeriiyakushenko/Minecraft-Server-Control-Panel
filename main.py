@@ -19,7 +19,7 @@ maxmemory = settings_cfg['maxmemory']
 minmemory = settings_cfg['minmemory']
 server_ip = settings_cfg['server_ip']
 server_port = settings_cfg['server_port']
-rcon_ip = settings_cfg['rcon_ip']
+rcon_port = settings_cfg['rcon_port']
 rcon_password = settings_cfg['rcon_password']
 player_name = ''
 
@@ -166,19 +166,19 @@ def fileplacedef():
             "minmemory": f"{minmemory}",
             "server_ip": f"{server_ip}",
             "server_port": f"{server_port}",
-            "rcon_ip": f"{rcon_ip}",
+            "rcon_port": f"{rcon_port}",
             "rcon_password": f"{rcon_password}"}}, file_1)
 
 
 def runcommand():
-    with r(f'{rcon_ip}', f'{rcon_password}') as mcr:
+    with r(f'{server_ip}', f'{rcon_password}') as mcr:
         command = mcr.command(f'{commandentey.get()}')
     commandline.insert(END, f'  {command}')
     commandentey.delete(0, 'end')
 
 
 def runcommand_event(event):
-    with r(f'{rcon_ip}', f'{rcon_password}') as mcr:
+    with r(f'{server_ip}', f'{rcon_password}') as mcr:
         command = mcr.command(f'{commandentey.get()}')
     commandline.insert(END, f'  {command}')
     commandentey.delete(0, 'end')
@@ -219,17 +219,17 @@ def info():
     program_name.place(x=30, y=75)
 
     program_type = customtkinter.CTkLabel(info_window,
-                                             width=260,
-                                             height=20,
-                                             bg_color='#393E46',
-                                             text='(For any server)')
+                                          width=260,
+                                          height=20,
+                                          bg_color='#393E46',
+                                          text='(For any server)')
     program_type.place(x=30, y=100)
 
     program_version = customtkinter.CTkLabel(info_window,
                                              width=260,
                                              height=20,
                                              bg_color='#393E46',
-                                             text='Version (1.1)')
+                                             text='Version (1.2)')
     program_version.place(x=30, y=125)
 
 
@@ -243,7 +243,7 @@ def start():
 
 def stop():
     if status():
-        with r(f'{rcon_ip}', f'{rcon_password}') as mcr:
+        with r(f'{server_ip}', f'{rcon_password}') as mcr:
             mcr.command('stop')
     else:
         commandline.insert(END, "  Server Stopped")
@@ -253,7 +253,7 @@ def restart_java():
     global java_restart
 
     if status():
-        with r(f'{rcon_ip}', f'{rcon_password}') as mcr:
+        with r(f'{server_ip}', f'{rcon_password}') as mcr:
             mcr.command('stop')
 
         while not java_restart:
@@ -280,7 +280,7 @@ def openSettings():
     global minmemory
     global server_ip
     global server_port
-    global rcon_ip
+    global rcon_port
     global rcon_password
 
     fileplace = settings_cfg_1['fileplace']
@@ -288,7 +288,7 @@ def openSettings():
     minmemory = settings_cfg_1['minmemory']
     server_ip = settings_cfg_1['server_ip']
     server_port = settings_cfg_1['server_port']
-    rcon_ip = settings_cfg_1['rcon_ip']
+    rcon_port = settings_cfg_1['rcon_port']
     rcon_password = settings_cfg_1['rcon_password']
 
     settings = tk.Tk()
@@ -328,13 +328,13 @@ def openSettings():
                                          text_color='white')
     minmemlable.place(x=10, y=128)
 
-    rcon_ip_lable = customtkinter.CTkLabel(settings,
-                                           width=40,
-                                           height=28,
-                                           bg_color='#393E46',
-                                           text='Rcon ip',
-                                           text_color='white')
-    rcon_ip_lable.place(x=10, y=168)
+    rcon_port_lable = customtkinter.CTkLabel(settings,
+                                             width=40,
+                                             height=28,
+                                             bg_color='#393E46',
+                                             text='Rcon port',
+                                             text_color='white')
+    rcon_port_lable.place(x=10, y=168)
 
     rcon_password_lable = customtkinter.CTkLabel(settings,
                                                  width=40,
@@ -380,14 +380,14 @@ def openSettings():
     minmementry.place(x=120, y=128)
     minmementry.insert(0, minmemory)
 
-    rcon_ip_entry = customtkinter.CTkEntry(settings,
-                                           width=250,
-                                           height=28,
-                                           bg_color='#393E46',
-                                           fg_color='#222831',
-                                           text_color='white')
-    rcon_ip_entry.place(x=120, y=168)
-    rcon_ip_entry.insert(0, rcon_ip)
+    rcon_port_entry = customtkinter.CTkEntry(settings,
+                                             width=250,
+                                             height=28,
+                                             bg_color='#393E46',
+                                             fg_color='#222831',
+                                             text_color='white')
+    rcon_port_entry.place(x=120, y=168)
+    rcon_port_entry.insert(0, rcon_port)
 
     rcon_password_entry = customtkinter.CTkEntry(settings,
                                                  width=250,
@@ -404,14 +404,14 @@ def openSettings():
         global minmemory
         global server_ip
         global server_port
-        global rcon_ip
+        global rcon_port
         global rcon_password
 
         max = maxmementry.get()
         min = minmementry.get()
         ip_server = server_ip_entry.get()
         port = server_port_entry.get()
-        ip_rcon = rcon_ip_entry.get()
+        port_rcon = rcon_port_entry.get()
         password = rcon_password_entry.get()
 
         maxmemory = max
@@ -424,7 +424,7 @@ def openSettings():
                 "minmemory": f"{min}",
                 "server_ip": f"{ip_server}",
                 "server_port": f"{port}",
-                "rcon_ip": f"{ip_rcon}",
+                "rcon_port": f"{port_rcon}",
                 "rcon_password": f"{password}"}}, file_2)
         settings.destroy()
 
@@ -434,13 +434,13 @@ def openSettings():
         maxmementry.delete(0, 'end')
         minmementry.delete(0, 'end')
         rcon_password_entry.delete(0, 'end')
-        rcon_ip_entry.delete(0, 'end')
+        rcon_port_entry.delete(0, 'end')
         server_ip_entry.insert(0, '')
         server_port_entry.insert(0, 25565)
         maxmementry.insert(0, 2048)
         minmementry.insert(0, 1024)
         rcon_password_entry.insert(0, '')
-        rcon_ip_entry.insert(0, '0.0.0.0')
+        rcon_port_entry.insert(0, '25575')
 
     ok = customtkinter.CTkButton(settings,
                                  text="Save",
@@ -483,25 +483,25 @@ def settime():
     time_window.config(bg='#393E46')
 
     def day():
-        with r(f'{rcon_ip}', f'{rcon_password}') as mcr:
+        with r(f'{server_ip}', f'{rcon_password}') as mcr:
             command = mcr.command('time set day')
         commandline.insert(END, f'  {command}')
         time_window.destroy()
 
     def midnight():
-        with r(f'{rcon_ip}', f'{rcon_password}') as mcr:
+        with r(f'{server_ip}', f'{rcon_password}') as mcr:
             command = mcr.command('time set midnight')
         commandline.insert(END, f'  {command}')
         time_window.destroy()
 
     def night():
-        with r(f'{rcon_ip}', f'{rcon_password}') as mcr:
+        with r(f'{server_ip}', f'{rcon_password}') as mcr:
             command = mcr.command('time set night')
         commandline.insert(END, f'  {command}')
         time_window.destroy()
 
     def noon():
-        with r(f'{rcon_ip}', f'{rcon_password}') as mcr:
+        with r(f'{server_ip}', f'{rcon_password}') as mcr:
             command = mcr.command('time set noon')
         commandline.insert(END, f'  {command}')
         time_window.destroy()
@@ -556,19 +556,19 @@ def setweather():
     weather.config(bg='#393E46')
 
     def clear():
-        with r(f'{rcon_ip}', f'{rcon_password}') as mcr:
+        with r(f'{server_ip}', f'{rcon_password}') as mcr:
             command = mcr.command('weather clear')
         commandline.insert(END, f'  {command}')
         weather.destroy()
 
     def rain():
-        with r(f'{rcon_ip}', f'{rcon_password}') as mcr:
+        with r(f'{server_ip}', f'{rcon_password}') as mcr:
             command = mcr.command('weather rain')
         commandline.insert(END, f'  {command}')
         weather.destroy()
 
     def thunder():
-        with r(f'{rcon_ip}', f'{rcon_password}') as mcr:
+        with r(f'{server_ip}', f'{rcon_password}') as mcr:
             command = mcr.command('weather thunder')
         commandline.insert(END, f'  {command}')
         weather.destroy()
@@ -643,25 +643,25 @@ def player_list_def():
             gamemode_window.config(bg='#393E46')
 
             def adventure():
-                with r(f'{rcon_ip}', f'{rcon_password}') as mcr:
+                with r(f'{server_ip}', f'{rcon_password}') as mcr:
                     command = mcr.command(f'gamemode adventure {player_name}')
                 commandline.insert(END, f'  {command}')
                 gamemode_window.destroy()
 
             def creative():
-                with r(f'{rcon_ip}', f'{rcon_password}') as mcr:
+                with r(f'{server_ip}', f'{rcon_password}') as mcr:
                     command = mcr.command(f'gamemode creative {player_name}')
                 commandline.insert(END, f'  {command}')
                 gamemode_window.destroy()
 
             def spectrator():
-                with r(f'{rcon_ip}', f'{rcon_password}') as mcr:
+                with r(f'{server_ip}', f'{rcon_password}') as mcr:
                     command = mcr.command(f'gamemode spectrator {player_name}')
                 commandline.insert(END, f'  {command}')
                 gamemode_window.destroy()
 
             def survival():
-                with r(f'{rcon_ip}', f'{rcon_password}') as mcr:
+                with r(f'{server_ip}', f'{rcon_password}') as mcr:
                     command = mcr.command(f'gamemode survival {player_name}')
                 commandline.insert(END, f'  {command}')
                 gamemode_window.destroy()
@@ -699,7 +699,7 @@ def player_list_def():
             spectrator.place(x=20, y=150)
 
         def operator():
-            with r(f'{rcon_ip}', f'{rcon_password}') as mcr:
+            with r(f'{server_ip}', f'{rcon_password}') as mcr:
                 command = mcr.command(f'op {player_name}')
             if command == "Nothing changed. The player already is an operator":
                 operator_info = tk.Tk()
@@ -708,7 +708,7 @@ def player_list_def():
                 operator_info.config(bg='#393E46')
 
                 def answer_yes():
-                    with r(f'{rcon_ip}', f'{rcon_password}') as mcr_1:
+                    with r(f'{server_ip}', f'{rcon_password}') as mcr_1:
                         command_1 = mcr_1.command(f'deop {player_name}')
                     commandline.insert(END, f'  {command_1}')
                     operator_info.destroy()
@@ -756,12 +756,12 @@ def player_list_def():
                 commandline.insert(END, f'  {command}')
 
         def ban():
-            with r(f'{rcon_ip}', f'{rcon_password}') as mcr:
+            with r(f'{server_ip}', f'{rcon_password}') as mcr:
                 command = mcr.command(f'ban {player_name}')
             commandline.insert(END, f'  {command}')
 
         def kill():
-            with r(f'{rcon_ip}', f'{rcon_password}') as mcr:
+            with r(f'{server_ip}', f'{rcon_password}') as mcr:
                 command = mcr.command(f'kill {player_name}')
             commandline.insert(END, f'  {command}')
 
