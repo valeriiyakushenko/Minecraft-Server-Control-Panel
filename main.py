@@ -14,7 +14,7 @@ from tkinter.filedialog import askopenfilename
 config = Config(os.path.join('.', 'config.yaml'))
 settings_cfg = config.get_config('settings_server')
 
-statistics_config = Config(os.path.join('.', 'Control-Panel-Addition/config.yml'))
+statistics_config = Config(os.path.join('.', 'plugins/Control-Panel-Addition/config.yml'))
 
 fileplace = settings_cfg['fileplace']
 maxmemory = settings_cfg['maxmemory']
