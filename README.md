@@ -51,6 +51,10 @@ query.port=25565
 rcon.port=25575
 rcon.password=your_pasword
 ```
+#### Go to the main tab and open the settings<br />
+![](documentation_images/settings_screen.png)
+Fill in all the parameters for the panel to work correctly<br />
+
 # Usage
 ##### Run scrip
 ```
@@ -58,12 +62,7 @@ python3 main.py
 ```
 or
 >Double click on start.sh
----
-Go to the main tab and open the settings<br />
-![](documentation_images/settings_screen.png)
-Fill in all the parameters for the panel to work correctly<br />
 
----
 
 # First start
 
