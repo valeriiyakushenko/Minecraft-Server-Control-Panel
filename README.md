@@ -51,26 +51,29 @@ query.port=25565
 rcon.port=25575
 rcon.password=your_pasword
 ```
-# Usage
+---
+#### Go to the main tab and open the settings:<br />
+Fill in all the parameters for the panel to work correctly<br />
+![](documentation_images/settings_screen.png)
+
+# First start
 ##### Run scrip
 ```
 python3 main.py 
 ```
 or
 >Double click on start.sh
+
+![](documentation_images/stopped_screen.png)<br />
+_Stopped*_
+
 ---
-Go to the main tab and open the settings<br />
-Fill in all the parameters for the panel to work correctly<br />
-![](documentation_images/settings.png)
-
-#### First start
-
-Click on the file button in the upper right corner and select the jar file of your server which should be in the same folder as the control panel<br />
-
-And press the start button
+#### Click on the file button in the upper right corner and select the jar file of your server which should be in the same folder as the control panel<br />
+#### And press the start button<br />
 
 ![](documentation_images/starting_screen.png)<br />
 _Staring*_
+
 ---
 ![](documentation_images/started_screen.png)<br />
 _Started*_
