@@ -106,7 +106,7 @@ def status():
     if '.minecraft' in output:
         return True
     else:
-        return False
+        return True
 
 
 def statusserver():
@@ -215,6 +215,7 @@ def info():
     program_name = customtkinter.CTkLabel(info_window,
                                           width=260,
                                           height=20,
+                                          text_color='white',
                                           bg_color='#393E46',
                                           text='Server-Control_Panel')
     program_name.place(x=30, y=75)
@@ -222,6 +223,7 @@ def info():
     program_type = customtkinter.CTkLabel(info_window,
                                           width=260,
                                           height=20,
+                                          text_color='white',
                                           bg_color='#393E46',
                                           text='(With plugin Bukkit/Spigot 1.19)')
     program_type.place(x=30, y=100)
@@ -229,6 +231,7 @@ def info():
     program_version = customtkinter.CTkLabel(info_window,
                                              width=260,
                                              height=20,
+                                             text_color='white',
                                              bg_color='#393E46',
                                              text='Version (1.0)')
     program_version.place(x=30, y=125)
@@ -635,7 +638,7 @@ def player_list_def():
     def player_selected():
         global player_name
         print("optionmenu dropdown clicked:", player_name)
-        player_list_window.geometry("250x240")
+        player_list_window.geometry("250x285")
 
         def gamemode_def():
             gamemode_window = tk.Tk()
@@ -766,6 +769,123 @@ def player_list_def():
                 command = mcr.command(f'kill {player_name}')
             commandline.insert(END, f'  {command}')
 
+        def player_statistic_def():
+            player_statistic_window = tk.Tk()
+            player_statistic_window.title(f'{player_name} statistic')
+            player_statistic_window.geometry("320x380")
+            player_statistic_window.config(bg='#393E46')
+
+            def load_statistic():
+                player_statistic_cfg = statistics_config.get_config(f'{player_name}')
+                diamond_int = player_statistic_cfg['Diamond']
+                iron_int = player_statistic_cfg['Iron']
+                emerald_int = player_statistic_cfg['Emerald']
+                coal_int = player_statistic_cfg['Coal']
+                gold_int = player_statistic_cfg['Gold']
+                copper_int = player_statistic_cfg['Copper']
+                redstone_int = player_statistic_cfg['Redstone']
+                lapis_int = player_statistic_cfg['Lapis']
+                deaths_int = player_statistic_cfg['Deaths']
+                killings_int = player_statistic_cfg['Killings']
+
+                mining = customtkinter.CTkLabel(player_statistic_window,
+                                                width=320,
+                                                height=20,
+                                                text_color='white',
+                                                bg_color='#393E46',
+                                                text='Mining Statistic')
+                mining.place(x=0, y=15)
+
+                diamond = customtkinter.CTkLabel(player_statistic_window,
+                                                 width=30,
+                                                 height=20,
+                                                 text_color='white',
+                                                 bg_color='#393E46',
+                                                 text=f'Diamonds mined: {diamond_int}')
+                diamond.place(x=12, y=45)
+
+                iron = customtkinter.CTkLabel(player_statistic_window,
+                                              width=30,
+                                              height=20,
+                                              text_color='white',
+                                              bg_color='#393E46',
+                                              text=f'Iron mined: {iron_int}')
+                iron.place(x=12, y=75)
+
+                emerald = customtkinter.CTkLabel(player_statistic_window,
+                                                 width=30,
+                                                 height=20,
+                                                 text_color='white',
+                                                 bg_color='#393E46',
+                                                 text=f'Emerald mined: {emerald_int}')
+                emerald.place(x=12, y=105)
+
+                coal = customtkinter.CTkLabel(player_statistic_window,
+                                              width=30,
+                                              height=20,
+                                              text_color='white',
+                                              bg_color='#393E46',
+                                              text=f'Coal mined: {coal_int}')
+                coal.place(x=12, y=135)
+
+                gold = customtkinter.CTkLabel(player_statistic_window,
+                                              width=30,
+                                              height=20,
+                                              text_color='white',
+                                              bg_color='#393E46',
+                                              text=f'Gold mined: {gold_int}')
+                gold.place(x=12, y=165)
+
+                copper = customtkinter.CTkLabel(player_statistic_window,
+                                                width=30,
+                                                height=20,
+                                                text_color='white',
+                                                bg_color='#393E46',
+                                                text=f'Copper mined: {copper_int}')
+                copper.place(x=12, y=195)
+
+                redstone = customtkinter.CTkLabel(player_statistic_window,
+                                                  width=30,
+                                                  height=20,
+                                                  text_color='white',
+                                                  bg_color='#393E46',
+                                                  text=f'Redstone mined: {redstone_int}')
+                redstone.place(x=12, y=225)
+
+                lapis = customtkinter.CTkLabel(player_statistic_window,
+                                               width=30,
+                                               height=20,
+                                               text_color='white',
+                                               bg_color='#393E46',
+                                               text=f'Lapis mined: {lapis_int}')
+                lapis.place(x=12, y=255)
+
+                players = customtkinter.CTkLabel(player_statistic_window,
+                                                 width=320,
+                                                 height=20,
+                                                 text_color='white',
+                                                 bg_color='#393E46',
+                                                 text='Player Statistic')
+                players.place(x=0, y=285)
+
+                killings = customtkinter.CTkLabel(player_statistic_window,
+                                                  width=30,
+                                                  height=20,
+                                                  text_color='white',
+                                                  bg_color='#393E46',
+                                                  text=f'{player_name} Killings: {killings_int}')
+                killings.place(x=12, y=315)
+
+                deaths = customtkinter.CTkLabel(player_statistic_window,
+                                                width=30,
+                                                height=20,
+                                                text_color='white',
+                                                bg_color='#393E46',
+                                                text=f'{player_name} Deaths: {deaths_int}')
+                deaths.place(x=12, y=345)
+
+            load_statistic()
+
         gamemode = customtkinter.CTkButton(player_list_window,
                                            text="Gamemode",
                                            text_color='black',
@@ -806,6 +926,16 @@ def player_list_def():
                                        command=kill)
         kill.place(x=20, y=195)
 
+        statistic_button = customtkinter.CTkButton(player_list_window,
+                                                   text="Statistic",
+                                                   text_color='black',
+                                                   bg_color='#393E46',
+                                                   fg_color='#EEEEEE',
+                                                   width=210,
+                                                   height=30,
+                                                   command=player_statistic_def)
+        statistic_button.place(x=20, y=240)
+
     combobox = customtkinter.CTkOptionMenu(player_list_window,
                                            width=210,
                                            height=30,
@@ -817,7 +947,7 @@ def player_list_def():
 
 def statistic_def():
     statistic_window = tk.Tk()
-    statistic_window.title("Statistic")
+    statistic_window.title("Server statistic")
     statistic_window.geometry("320x380")
     statistic_window.config(bg='#393E46')
 
@@ -836,6 +966,7 @@ def statistic_def():
         mining = customtkinter.CTkLabel(statistic_window,
                                         width=320,
                                         height=20,
+                                        text_color='white',
                                         bg_color='#393E46',
                                         text='Mining Statistic')
         mining.place(x=0, y=15)
@@ -843,6 +974,7 @@ def statistic_def():
         diamond = customtkinter.CTkLabel(statistic_window,
                                          width=160,
                                          height=20,
+                                         text_color='white', 
                                          bg_color='#393E46',
                                          text=f'Diamonds mined on the server: {diamond_int}')
         diamond.place(x=12, y=45)
@@ -850,6 +982,7 @@ def statistic_def():
         iron = customtkinter.CTkLabel(statistic_window,
                                       width=160,
                                       height=20,
+                                      text_color='white',
                                       bg_color='#393E46',
                                       text=f'Iron mined on the server: {iron_int}')
         iron.place(x=12, y=75)
@@ -857,6 +990,7 @@ def statistic_def():
         emerald = customtkinter.CTkLabel(statistic_window,
                                          width=160,
                                          height=20,
+                                         text_color='white',
                                          bg_color='#393E46',
                                          text=f'Emerald mined on the server: {emerald_int}')
         emerald.place(x=12, y=105)
@@ -864,6 +998,7 @@ def statistic_def():
         coal = customtkinter.CTkLabel(statistic_window,
                                       width=160,
                                       height=20,
+                                      text_color='white',
                                       bg_color='#393E46',
                                       text=f'Coal mined on the server: {coal_int}')
         coal.place(x=12, y=135)
@@ -871,6 +1006,7 @@ def statistic_def():
         gold = customtkinter.CTkLabel(statistic_window,
                                       width=160,
                                       height=20,
+                                      text_color='white',
                                       bg_color='#393E46',
                                       text=f'Gold mined on the server: {gold_int}')
         gold.place(x=12, y=165)
@@ -878,6 +1014,7 @@ def statistic_def():
         copper = customtkinter.CTkLabel(statistic_window,
                                         width=160,
                                         height=20,
+                                        text_color='white',
                                         bg_color='#393E46',
                                         text=f'Copper mined on the server: {copper_int}')
         copper.place(x=12, y=195)
@@ -885,6 +1022,7 @@ def statistic_def():
         redstone = customtkinter.CTkLabel(statistic_window,
                                           width=160,
                                           height=20,
+                                          text_color='white',
                                           bg_color='#393E46',
                                           text=f'Redstone mined on the server: {redstone_int}')
         redstone.place(x=12, y=225)
@@ -892,6 +1030,7 @@ def statistic_def():
         lapis = customtkinter.CTkLabel(statistic_window,
                                        width=160,
                                        height=20,
+                                       text_color='white',
                                        bg_color='#393E46',
                                        text=f'Lapis mined on the server: {lapis_int}')
         lapis.place(x=12, y=255)
@@ -899,6 +1038,7 @@ def statistic_def():
         players = customtkinter.CTkLabel(statistic_window,
                                          width=320,
                                          height=20,
+                                         text_color='white',
                                          bg_color='#393E46',
                                          text='Players Statistic')
         players.place(x=0, y=285)
@@ -906,6 +1046,7 @@ def statistic_def():
         killings = customtkinter.CTkLabel(statistic_window,
                                           width=50,
                                           height=20,
+                                          text_color='white',
                                           bg_color='#393E46',
                                           text=f'Killings: {killings_int}')
         killings.place(x=12, y=315)
@@ -913,6 +1054,7 @@ def statistic_def():
         deaths = customtkinter.CTkLabel(statistic_window,
                                         width=50,
                                         height=20,
+                                        text_color='white',
                                         bg_color='#393E46',
                                         text=f'Deaths: {deaths_int}')
         deaths.place(x=12, y=345)
