@@ -106,7 +106,7 @@ def status():
     if '.minecraft' in output:
         return True
     else:
-        return True
+        return False
 
 
 def statusserver():
