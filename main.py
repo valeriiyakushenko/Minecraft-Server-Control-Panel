@@ -4,34 +4,24 @@ import os
 import yaml
 import customtkinter
 from tkinter import *
-from tkinter import Tk
 from config import Config
 import tkinter.font as font
 from threading import Thread
 from mcrcon import MCRcon as r
-from tkinter.filedialog import askopenfilename
 
 config = Config(os.path.join('.', 'config.yaml'))
 settings_cfg = config.get_config('settings_server')
 
-fileplace = settings_cfg['fileplace']
-maxmemory = settings_cfg['maxmemory']
-minmemory = settings_cfg['minmemory']
 server_ip = settings_cfg['server_ip']
 server_port = settings_cfg['server_port']
 rcon_port = settings_cfg['rcon_port']
 rcon_password = settings_cfg['rcon_password']
 player_name = ''
-
-server_status_online = False
-statustext = ""
-statuscolor = ""
-print_text = False
-java_restart = False
+status_lable = False
 
 window = tk.Tk()
 window.title("Minecraft Server Control Panel")
-window.geometry('700x400')
+window.geometry('700x370')
 main_icon = PhotoImage(file="assets_py/main_icon.png")
 window.iconphoto(False, main_icon)
 
@@ -45,24 +35,14 @@ commandline = Listbox(window,
                       bd=0,
                       height=16,
                       bg='#222831')
-commandline.place(x=125, y=70)
-
-fileentey = customtkinter.CTkEntry(window,
-                                   width=500,
-                                   height=28,
-                                   bg_color='#393E46',
-                                   fg_color='#222831',
-                                   text_color='white',
-                                   placeholder_text="Please, select a server.jar file")
-fileentey.place(x=125, y=12)
-fileentey.insert(0, fileplace)
+commandline.place(x=125, y=44)
 
 commandentey = customtkinter.CTkEntry(window, width=500,
                                       height=28,
                                       bg_color='#393E46',
                                       fg_color='#222831',
                                       text_color='white')
-commandentey.place(x=125, y=360)
+commandentey.place(x=125, y=330)
 
 serverlable = customtkinter.CTkLabel(window,
                                      width=40,
@@ -70,14 +50,14 @@ serverlable = customtkinter.CTkLabel(window,
                                      bg_color='#393E46',
                                      text='Server status:',
                                      text_color='white')
-serverlable.place(x=210, y=43)
+serverlable.place(x=210, y=12)
 
 infolable = customtkinter.CTkLabel(window,
                                    width=40,
                                    height=20,
                                    bg_color='#393E46',
                                    text='', )
-infolable.place(x=310, y=43)
+infolable.place(x=310, y=12)
 
 playerlable = customtkinter.CTkLabel(window,
                                      width=40,
@@ -85,90 +65,54 @@ playerlable = customtkinter.CTkLabel(window,
                                      bg_color='#393E46',
                                      text='Players online:',
                                      text_color='white')
-playerlable.place(x=410, y=43)
+playerlable.place(x=410, y=12)
 
 infoplayerlable = customtkinter.CTkLabel(window,
                                          width=40,
                                          height=20,
                                          bg_color='#393E46',
                                          text='')
-infoplayerlable.place(x=520, y=43)
+infoplayerlable.place(x=520, y=12)
 
 menubar = Menu(window, bg="#393E46", foreground='white')
 window.config(menu=menubar)
 
 main_menu = Menu(menubar)
 
-
-def status():
-    output = os.popen('screen -ls').read()
-    if '.minecraft' in output:
-        return True
-    else:
-        return False
-
-
 def statusserver():
-    global print_text
+    global status_lable
 
     server_status1 = Config(os.path.join('.', 'server_status.yaml'))
     properties = server_status1.get_config('server_status')
     server_status_online_prop = properties['online']
 
-    if not status() and server_status_online_prop == False:
+    if not server_status_online_prop:
         infolable.config(text='Stopped', fg='red')
         infoplayerlable.config(text='0/0', fg='red')
-        if print_text:
+        if status_lable:
             commandline.insert(END, '  Server stopped')
-            print_text = False
-    if status() and server_status_online_prop == False:
-        infolable.config(text='Starting', fg='yellow')
-        infoplayerlable.config(text='0/0', fg='red')
-        commandline.insert(END, '  Server Starting, please wait')
-        print_text = True
-    if status() and server_status_online_prop == True:
+            status_lable = False
+
+
+    if server_status_online_prop:
         infolable.config(text='Started', fg='green')
         players_online_now = properties['players_online_now']
         players_online_max = properties['players_online_max']
         infoplayerlable.config(text=f'{players_online_now}/{players_online_max}', fg='green')
-        if print_text:
+        if not status_lable:
             commandline.insert(END, '  Server started')
-            print_text = False
-    if not status() and server_status_online_prop == True:
-        infolable.config(text='Stopping', fg='yellow')
-        infoplayerlable.config(text='0/0', fg='red')
-        commandline.insert(END, '  Server Stopping, please wait')
-        print_text = True
+            status_lable = True
 
 
 def Thread_Status():
     while True:
         statusserver()
-        time.sleep(10)
+        time.sleep(5)
 
 
 th = Thread(target=Thread_Status)
 th.daemon = True
 th.start()
-
-
-def fileplacedef():
-    global fileplace
-    Tk().withdraw()
-    filename = askopenfilename()
-    fileplace = filename
-    fileentey.delete(0, 'end')
-    fileentey.insert(0, filename)
-    with open(os.path.join('.', 'config.yaml'), 'w+') as file_1:
-        yaml.dump({"settings_server": {
-            "fileplace": f"{filename}",
-            "maxmemory": f"{maxmemory}",
-            "minmemory": f"{minmemory}",
-            "server_ip": f"{server_ip}",
-            "server_port": f"{server_port}",
-            "rcon_port": f"{rcon_port}",
-            "rcon_password": f"{rcon_password}"}}, file_1)
-
 
 def runcommand():
     with r(f'{server_ip}', f'{rcon_password}') as mcr:
@@ -224,7 +168,7 @@ def info():
                                           height=20,
                                           bg_color='#393E46',
                                           text_color='white',
-                                          text='(For any server)')
+                                          text='(For any remote server)')
     program_type.place(x=30, y=100)
 
     program_version = customtkinter.CTkLabel(info_window,
@@ -232,63 +176,18 @@ def info():
                                              height=20,
                                              text_color='white',
                                              bg_color='#393E46',
-                                             text='Version (1.2)')
+                                             text='Version (1.0)')
     program_version.place(x=30, y=125)
-
-
-
-def start():
-    if not status():
-        os.system(f'screen -dmS "minecraft" java -Xmx{maxmemory}M -Xms{minmemory}M -jar {fileplace}')
-    else:
-        commandline.insert(END, "  Server already started")
-
-
-def stop():
-    if status():
-        with r(f'{server_ip}', f'{rcon_password}') as mcr:
-            mcr.command('stop')
-    else:
-        commandline.insert(END, "  Server Stopped")
-
-
-def restart_java():
-    global java_restart
-
-    if status():
-        with r(f'{server_ip}', f'{rcon_password}') as mcr:
-            mcr.command('stop')
-
-        while not java_restart:
-            if status():
-                java_restart = False
-                print(1)
-                time.sleep(1)
-            else:
-                os.system(f'screen -dmS "minecraft" java -Xmx{maxmemory}M -Xms{minmemory}M -jar {fileplace}')
-                java_restart = True
-                print(2)
-                time.sleep(1)
-        java_restart = False
-
-    else:
-        commandline.insert(END, "  Server Stopped")
 
 def openSettings():
     config_1 = Config(os.path.join('.', 'config.yaml'))
     settings_cfg_1 = config_1.get_config('settings_server')
 
-    global fileplace
-    global maxmemory
-    global minmemory
     global server_ip
     global server_port
     global rcon_port
     global rcon_password
 
-    fileplace = settings_cfg_1['fileplace']
-    maxmemory = settings_cfg_1['maxmemory']
-    minmemory = settings_cfg_1['minmemory']
     server_ip = settings_cfg_1['server_ip']
     server_port = settings_cfg_1['server_port']
     rcon_port = settings_cfg_1['rcon_port']
@@ -296,7 +195,7 @@ def openSettings():
 
     settings = tk.Tk()
     settings.title("Settings")
-    settings.geometry("380x400")
+    settings.geometry("380x230")
     settings.config(bg='#393E46')
 
     server_ip_lable = customtkinter.CTkLabel(settings,
@@ -315,29 +214,13 @@ def openSettings():
                                                text_color='white')
     server_port_lable.place(x=10, y=48)
 
-    maxmemlable = customtkinter.CTkLabel(settings,
-                                         width=40,
-                                         height=28,
-                                         bg_color='#393E46',
-                                         text='Max memory',
-                                         text_color='white')
-    maxmemlable.place(x=10, y=88)
-
-    minmemlable = customtkinter.CTkLabel(settings,
-                                         width=40,
-                                         height=28,
-                                         bg_color='#393E46',
-                                         text='Min memory',
-                                         text_color='white')
-    minmemlable.place(x=10, y=128)
-
     rcon_port_lable = customtkinter.CTkLabel(settings,
                                              width=40,
                                              height=28,
                                              bg_color='#393E46',
                                              text='Rcon port',
                                              text_color='white')
-    rcon_port_lable.place(x=10, y=168)
+    rcon_port_lable.place(x=10, y=88)
 
     rcon_password_lable = customtkinter.CTkLabel(settings,
                                                  width=40,
@@ -345,7 +228,7 @@ def openSettings():
                                                  bg_color='#393E46',
                                                  text='Rcon password',
                                                  text_color='white')
-    rcon_password_lable.place(x=10, y=208)
+    rcon_password_lable.place(x=10, y=128)
 
     server_ip_entry = customtkinter.CTkEntry(settings,
                                              width=250,
@@ -365,31 +248,13 @@ def openSettings():
     server_port_entry.place(x=120, y=48)
     server_port_entry.insert(0, server_port)
 
-    maxmementry = customtkinter.CTkEntry(settings,
-                                         width=250,
-                                         height=28,
-                                         bg_color='#393E46',
-                                         fg_color='#222831',
-                                         text_color='white')
-    maxmementry.place(x=120, y=88)
-    maxmementry.insert(0, maxmemory)
-
-    minmementry = customtkinter.CTkEntry(settings,
-                                         width=250,
-                                         height=28,
-                                         bg_color='#393E46',
-                                         fg_color='#222831',
-                                         text_color='white')
-    minmementry.place(x=120, y=128)
-    minmementry.insert(0, minmemory)
-
     rcon_port_entry = customtkinter.CTkEntry(settings,
                                              width=250,
                                              height=28,
                                              bg_color='#393E46',
                                              fg_color='#222831',
                                              text_color='white')
-    rcon_port_entry.place(x=120, y=168)
+    rcon_port_entry.place(x=120, y=88)
     rcon_port_entry.insert(0, rcon_port)
 
     rcon_password_entry = customtkinter.CTkEntry(settings,
@@ -398,33 +263,22 @@ def openSettings():
                                                  bg_color='#393E46',
                                                  fg_color='#222831',
                                                  text_color='white')
-    rcon_password_entry.place(x=120, y=208)
+    rcon_password_entry.place(x=120, y=128)
     rcon_password_entry.insert(0, rcon_password)
 
     def save():
-        global fileplace
-        global maxmemory
-        global minmemory
         global server_ip
         global server_port
         global rcon_port
         global rcon_password
 
-        max = maxmementry.get()
-        min = minmementry.get()
         ip_server = server_ip_entry.get()
         port = server_port_entry.get()
         port_rcon = rcon_port_entry.get()
         password = rcon_password_entry.get()
 
-        maxmemory = max
-        minmemory = min
-
         with open(os.path.join('.', 'config.yaml'), 'w+') as file_2:
             yaml.dump({"settings_server": {
-                "fileplace": f"{fileplace}",
-                "maxmemory": f"{max}",
-                "minmemory": f"{min}",
                 "server_ip": f"{ip_server}",
                 "server_port": f"{port}",
                 "rcon_port": f"{port_rcon}",
@@ -434,14 +288,10 @@ def openSettings():
     def default():
         server_ip_entry.delete(0, 'end')
         server_port_entry.delete(0, 'end')
-        maxmementry.delete(0, 'end')
-        minmementry.delete(0, 'end')
         rcon_password_entry.delete(0, 'end')
         rcon_port_entry.delete(0, 'end')
         server_ip_entry.insert(0, '')
         server_port_entry.insert(0, 25565)
-        maxmementry.insert(0, 2048)
-        minmementry.insert(0, 1024)
         rcon_password_entry.insert(0, '')
         rcon_port_entry.insert(0, '25575')
 
@@ -453,7 +303,7 @@ def openSettings():
                                  width=80,
                                  height=26,
                                  command=save)
-    ok.place(x=285, y=360)
+    ok.place(x=285, y=188)
 
     cancel = customtkinter.CTkButton(settings,
                                      text="Cancel",
@@ -463,7 +313,7 @@ def openSettings():
                                      width=80,
                                      height=26,
                                      command=settings.destroy)
-    cancel.place(x=190, y=360)
+    cancel.place(x=190, y=188)
 
     default = customtkinter.CTkButton(settings,
                                       text="Default",
@@ -473,7 +323,7 @@ def openSettings():
                                       width=80,
                                       height=26,
                                       command=default)
-    default.place(x=14, y=360)
+    default.place(x=14, y=188)
 
     settings.resizable(width=False, height=False)
     settings.mainloop()
@@ -840,36 +690,6 @@ menubar.add_cascade(
 
 myFont = font.Font(size=12)
 
-start = customtkinter.CTkButton(window,
-                                text="Start",
-                                text_color='black',
-                                bg_color='#00ADB5',
-                                fg_color='#EEEEEE',
-                                width=88,
-                                height=38,
-                                command=start)
-start.place(x=12, y=12)
-
-stop = customtkinter.CTkButton(window,
-                               text="Stop",
-                               text_color='black',
-                               bg_color='#00ADB5',
-                               fg_color='#EEEEEE',
-                               width=88,
-                               height=38,
-                               command=stop)
-stop.place(x=12, y=62)
-
-restart = customtkinter.CTkButton(window,
-                                  text="Restart",
-                                  text_color='black',
-                                  bg_color='#00ADB5',
-                                  fg_color='#EEEEEE',
-                                  width=88,
-                                  height=38,
-                                  command=restart_java)
-restart.place(x=12, y=112)
-
 timeset = customtkinter.CTkButton(window,
                                   text="Time",
                                   text_color='black',
@@ -878,7 +698,7 @@ timeset = customtkinter.CTkButton(window,
                                   width=88,
                                   height=38,
                                   command=settime)
-timeset.place(x=12, y=250)
+timeset.place(x=12, y=12)
 
 weatherset = customtkinter.CTkButton(window,
                                      text="Weather",
@@ -888,7 +708,7 @@ weatherset = customtkinter.CTkButton(window,
                                      width=88,
                                      height=38,
                                      command=setweather)
-weatherset.place(x=12, y=300)
+weatherset.place(x=12, y=62)
 
 playerlist = customtkinter.CTkButton(window,
                                      text="Players",
@@ -898,17 +718,7 @@ playerlist = customtkinter.CTkButton(window,
                                      width=88,
                                      height=38,
                                      command=player_list_def)
-playerlist.place(x=12, y=350)
-
-file = customtkinter.CTkButton(window,
-                               text="File",
-                               text_color='black',
-                               bg_color='#393E46',
-                               fg_color='#EEEEEE',
-                               width=50,
-                               height=28,
-                               command=fileplacedef)
-file.place(x=635, y=12)
+playerlist.place(x=12, y=320)
 
 run = customtkinter.CTkButton(window,
                               text="Run",
@@ -918,7 +728,7 @@ run = customtkinter.CTkButton(window,
                               width=50,
                               height=28,
                               command=runcommand)
-run.place(x=635, y=358)
+run.place(x=635, y=330)
 
 window.resizable(width=False, height=False)
 window.mainloop()
