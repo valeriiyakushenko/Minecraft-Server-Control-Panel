@@ -12,9 +12,6 @@ _You can change the time, weather, and control the parameters of the player*_
 _You can write commands to the server and get responses*_
 # Installation
 
-Download the latest release and extract it to your server folder
-
----
 Install python3:
 ```
 sudo apt-get install python3
@@ -68,11 +65,7 @@ or
 _Stopped*_
 
 ---
-#### Click on the file button in the upper right corner and select the jar file of your server which should be in the same folder as the control panel<br />
-#### And press the start button<br />
-
-![](documentation_images/starting_screen.png)<br />
-_Staring*_
+#### Press the start button<br />
 
 ---
 ![](documentation_images/started_screen.png)<br />
