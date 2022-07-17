@@ -87,6 +87,6 @@ _Started*_
 
 ### Done! You can use program 
 
-
+---
 ![](documentation_images/about_screen.png)<br />
 _About  screen for control panel*_
