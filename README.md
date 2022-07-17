@@ -15,7 +15,10 @@ _You can write commands to the server and get responses*_
 ![](documentation_images/statistic_screen.png)<br />
 _You can see server statistics*_
 # Installation
+ 
+Download and install the latest release [```Control-Panel_Addition```](https://github.com/valerayakushenko/Control-Panel-Addition) plugin
 
+---
 Download the latest release and extract it to your server folder
 
 ---
